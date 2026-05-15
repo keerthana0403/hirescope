@@ -1,6 +1,8 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { createApplication } from "@/actions/application";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,12 +19,14 @@ import { toast } from "sonner";
 export function ApplicationForm() {
   const [status, setStatus] = useState("APPLIED");
   const [state, formAction] = useActionState(createApplication, null);
+  const router = useRouter();
 
   useEffect(() => {
     if (state?.success) {
       toast.success("Application added successfully");
+      router.refresh();
     }
-  }, [state]);
+  }, [state, router]);
 
   return (
     <form action={formAction} className="space-y-4">

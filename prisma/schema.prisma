@@ -7,6 +7,13 @@ datasource db {
   provider = "postgresql"
 }
 
+enum ApplicationStatus {
+  APPLIED
+  INTERVIEW
+  OFFER
+  REJECTED
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -20,7 +27,7 @@ model Application {
   id          String   @id @default(cuid())
   company     String
   role        String
-  status      String
+  status      ApplicationStatus @default(APPLIED)
   jobDesc     String?
   createdAt   DateTime @default(now())
 
