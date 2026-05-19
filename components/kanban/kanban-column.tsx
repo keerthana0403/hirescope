@@ -1,12 +1,16 @@
 import { ApplicationCard } from "./application-card";
 
 import { Droppable } from "@hello-pangea/dnd";
+import { Badge } from "../ui/badge";
+
+type ApplicationStatus = "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
 
 type Application = {
   id: string;
   company: string;
   role: string;
-  status: string;
+  status: ApplicationStatus;
+  createdAt: Date;
 };
 
 type KanbanColumnProps = {
@@ -21,14 +25,12 @@ export function KanbanColumn({ title, applications }: KanbanColumnProps) {
         <div
           ref={provided.innerRef}
           {...provided.droppableProps}
-          className="rounded-2xl bg-muted/40 p-4 min-h-125"
+          className="bg-muted/40 border rounded-2xl p-4 min-h-[500px] shadow-sm"
         >
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-semibold text-lg">{title}</h2>
 
-            <span className="text-sm text-muted-foreground">
-              {applications.length}
-            </span>
+            <Badge variant="secondary">{applications.length}</Badge>
           </div>
 
           <div className="space-y-3">
@@ -39,6 +41,12 @@ export function KanbanColumn({ title, applications }: KanbanColumnProps) {
                 index={index}
               />
             ))}
+
+            {applications.length === 0 && (
+              <div className="border border-dashed rounded-xl p-6 text-center text-sm text-muted-foreground">
+                No applications
+              </div>
+            )}
 
             {provided.placeholder}
           </div>

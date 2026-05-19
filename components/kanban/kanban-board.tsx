@@ -11,7 +11,8 @@ type Application = {
   id: string;
   company: string;
   role: string;
-  status: string;
+  status: "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
+  createdAt: Date;
 };
 
 type KanbanBoardProps = {
@@ -42,7 +43,11 @@ export function KanbanBoard({ applications }: KanbanBoardProps) {
       if (item.id === draggableId) {
         return {
           ...item,
-          status: destination.droppableId,
+          status: destination.droppableId as
+            | "APPLIED"
+            | "INTERVIEW"
+            | "OFFER"
+            | "REJECTED",
         };
       }
 
@@ -70,7 +75,7 @@ export function KanbanBoard({ applications }: KanbanBoardProps) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4 ">
         <KanbanColumn title="Applied" applications={applied} />
 
         <KanbanColumn title="Interview" applications={interview} />

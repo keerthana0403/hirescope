@@ -16,7 +16,11 @@ import {
 import { SubmitButton } from "@/components/submit-button";
 import { toast } from "sonner";
 
-export function ApplicationForm() {
+type ApplicationFormProps = {
+  onSuccess?: () => void;
+};
+
+export function ApplicationForm({ onSuccess }: ApplicationFormProps) {
   const [status, setStatus] = useState("APPLIED");
   const [state, formAction] = useActionState(createApplication, null);
   const router = useRouter();
@@ -24,30 +28,32 @@ export function ApplicationForm() {
   useEffect(() => {
     if (state?.success) {
       toast.success("Application added successfully");
+      onSuccess?.();
+
       router.refresh();
     }
-  }, [state, router]);
+  }, [state, router, onSuccess]);
 
   return (
     <form action={formAction} className="space-y-4">
       <div>
-        <Input name="company" placeholder="Company" />
+        <Input name="company" placeholder="Company" className="h-11" />
         {state?.errors?.company && (
           <p className="text-red-500 text-sm">{state.errors.company[0]}</p>
         )}
       </div>
 
       <div>
-        <Input name="role" placeholder="Role" />
+        <Input name="role" placeholder="Role" className="h-11" />
         {state?.errors?.role && (
           <p className="text-red-500 text-sm">{state.errors.role[0]}</p>
         )}
       </div>
 
-      <Textarea name="jobDesc" placeholder="Job Description" />
+      <Textarea name="jobDesc" placeholder="Job Description" className="h-11" />
 
       <Select name="status" value={status} onValueChange={setStatus}>
-        <SelectTrigger>
+        <SelectTrigger className="w-full h-11">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
