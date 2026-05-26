@@ -1,16 +1,20 @@
 import { prisma } from "@/lib/db";
 import { KanbanBoard } from "@/components/kanban/kanban-board";
-import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import AddApplicationDialog from "@/components/dashboard/add-application-dialog";
 import { StatsCard } from "@/components/dashboard/stats-card";
 import { Briefcase, Activity, Handshake, Trophy } from "lucide-react";
 
+import { auth } from "@/lib/auth";
+
 export default async function DashboardPage() {
+  const session = await auth();
+
   const applications = await prisma.application.findMany({
-    orderBy: {
-      createdAt: "desc",
+    where: {
+      userId: session?.user?.id,
     },
   });
+
   const totalApplications = applications.length;
 
   const activeApplications = applications.filter(
@@ -24,10 +28,8 @@ export default async function DashboardPage() {
   const offers = applications.filter((app) => app.status === "OFFER").length;
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <div className="flex items-center justify-between mb-8 md:flex-row flex-col gap-4">
-        <DashboardHeader />
-
+    <>
+      <div className="flex justify-end mb-6">
         <AddApplicationDialog />
       </div>
 
@@ -52,6 +54,6 @@ export default async function DashboardPage() {
       )}
 
       <KanbanBoard applications={applications} />
-    </div>
+    </>
   );
 }
