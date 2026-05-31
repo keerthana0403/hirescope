@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { KanbanColumn } from "./kanban-column";
 import { updateStatus } from "@/actions/application";
+import { ApplicationStatus } from "@prisma/client";
 
 type Application = {
   id: string;
@@ -56,7 +57,10 @@ export function KanbanBoard({ applications }: KanbanBoardProps) {
 
     setItems(updatedItems);
 
-    await updateStatus(draggableId, destination.droppableId);
+    await updateStatus(
+      draggableId,
+      destination.droppableId as ApplicationStatus,
+    );
 
     router.refresh();
   }

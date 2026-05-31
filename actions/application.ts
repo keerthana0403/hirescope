@@ -6,7 +6,10 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { ApplicationStatus } from "@prisma/client";
 
-export async function createApplication(_prevState: unknown, formData: FormData) {
+export async function createApplication(
+  _prevState: unknown,
+  formData: FormData,
+) {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -34,14 +37,14 @@ export async function createApplication(_prevState: unknown, formData: FormData)
   }
 
   await prisma.application.create({
-  data: {
-    company: validatedFields.data.company,
-    role: validatedFields.data.role,
-    status: validatedFields.data.status,
-    jobDesc: validatedFields.data.jobDesc,
-    userId: session.user.id,
-  },
-});
+    data: {
+      company: validatedFields.data.company,
+      role: validatedFields.data.role,
+      status: validatedFields.data.status,
+      jobDesc: validatedFields.data.jobDesc,
+      userId: session.user.id,
+    },
+  });
 
   revalidatePath("/dashboard");
 
@@ -51,8 +54,21 @@ export async function createApplication(_prevState: unknown, formData: FormData)
 }
 
 export async function updateStatus(id: string, status: ApplicationStatus) {
-  await prisma.application.update({
-    where: { id },
-    data: { status },
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+
+  await prisma.application.updateMany({
+    where: {
+      id,
+      userId: session.user.id,
+    },
+    data: {
+      status,
+    },
   });
+
+  revalidatePath("/dashboard");
 }
