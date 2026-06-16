@@ -25,7 +25,7 @@ export default function AddApplicationDialog() {
         </DialogTrigger>
 
         {/* Modal */}
-        <DialogContent className="sm:max-w-125">
+        <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Application</DialogTitle>
             <DialogDescription>

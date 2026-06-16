@@ -50,7 +50,11 @@ export function ApplicationForm({ onSuccess }: ApplicationFormProps) {
         )}
       </div>
 
-      <Textarea name="jobDesc" placeholder="Job Description" className="h-11" />
+      <Textarea
+        name="jobDesc"
+        placeholder="Paste the job description here..."
+        className="min-h-37.5"
+      />
 
       <Select name="status" value={status} onValueChange={setStatus}>
         <SelectTrigger className="w-full h-11">

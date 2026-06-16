@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -15,39 +14,49 @@ enum ApplicationStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String?
-  password     String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id       String  @id @default(cuid())
+  email    String  @unique
+  name     String?
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   applications Application[]
   resumes      Resume[]
 }
 
 model Application {
-  id          String            @id @default(cuid())
-  company     String
-  role        String
-  status      ApplicationStatus @default(APPLIED)
-  jobDesc     String?           @db.Text
+  id String @id @default(cuid())
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  company String
+  role    String
+  status  ApplicationStatus @default(APPLIED)
 
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobDesc String? @db.Text
+
+  matchScore    Int?
+  missingSkills Json?
+  strengths     Json?
+  suggestions   Json?
+
+  lastAnalyzedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Resume {
-  id          String   @id @default(cuid())
-  fileName    String
-  parsedText  String   @db.Text
+  id         String @id @default(cuid())
+  fileName   String
+  parsedText String @db.Text
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -13,6 +13,9 @@ export default async function DashboardPage() {
     where: {
       userId: session?.user?.id,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   const totalApplications = applications.length;

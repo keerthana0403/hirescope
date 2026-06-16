@@ -27,6 +27,8 @@ export async function POST(req: Request) {
 
     return Response.json({ success: true }, { status: 201 });
   } catch (error) {
+    console.error("Signup Error:", error);
+
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

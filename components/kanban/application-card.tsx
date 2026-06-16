@@ -3,6 +3,8 @@ import { formatDistanceToNow } from "date-fns";
 
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
+import { AnalyzeButton } from "../applications/analyze-button";
+import { AnalysisDialog } from "../applications/analysis-dialog";
 
 type ApplicationStatus = "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
 
@@ -12,6 +14,11 @@ type Application = {
   role: string;
   status: ApplicationStatus;
   createdAt: Date;
+
+  matchScore: number | null;
+  missingSkills: string[] | null;
+  strengths: string[] | null;
+  suggestions: string[] | null;
 };
 
 type ApplicationCardProps = {
@@ -47,6 +54,12 @@ export function ApplicationCard({ application, index }: ApplicationCardProps) {
               <p className="text-sm text-muted-foreground">
                 {application.role}
               </p>
+
+              {application.matchScore !== null && (
+                <p className="text-sm font-medium text-green-600 mt-2">
+                  Match Score: {application.matchScore}%
+                </p>
+              )}
             </div>
 
             <div className="flex items-center justify-between text-sm">
@@ -60,6 +73,18 @@ export function ApplicationCard({ application, index }: ApplicationCardProps) {
                 })}
               </span>
             </div>
+            {application.matchScore === null ? (
+              <AnalyzeButton applicationId={application.id} />
+            ) : (
+              <AnalysisDialog
+                company={application.company}
+                role={application.role}
+                matchScore={application.matchScore}
+                strengths={(application.strengths as string[]) ?? []}
+                missingSkills={(application.missingSkills as string[]) ?? []}
+                suggestions={(application.suggestions as string[]) ?? []}
+              />
+            )}
           </div>
         </Card>
       )}
