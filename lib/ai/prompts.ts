@@ -1,23 +1,39 @@
 export function buildMatchPrompt(resumeText: string, jobDescription: string) {
   return `
-You are an expert technical recruiter.
-
-Analyze the candidate resume against the job description.
+You are an ATS resume analyzer.
 
 Return ONLY valid JSON.
 
 {
   "matchScore": number,
-  "missingSkills": [],
-  "strengths": [],
-  "suggestions": []
+  "missingSkills": string[],
+  "strengths": string[],
+  "suggestions": string[]
 }
 
 Rules:
 - matchScore must be between 0 and 100.
-- missingSkills should contain important missing skills.
-- strengths should contain matching skills.
-- suggestions should improve ATS compatibility.
+- strengths must contain SHORT skill names only.
+- missingSkills must contain SHORT skill names only.
+- suggestions must be concise and actionable.
+- Maximum 5 strengths.
+- Maximum 5 missing skills.
+- Maximum 5 suggestions.
+- Do NOT explain anything.
+- Do NOT write sentences inside strengths.
+- Do NOT write paragraphs.
+
+Example:
+
+{
+  "matchScore": 82,
+  "missingSkills": ["Redux", "Jest"],
+  "strengths": ["React", "TypeScript", "REST APIs"],
+  "suggestions": [
+    "Add Redux project experience",
+    "Highlight testing experience"
+  ]
+}
 
 Resume:
 ${resumeText}

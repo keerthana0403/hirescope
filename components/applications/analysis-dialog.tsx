@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 type AnalysisDialogProps = {
   company: string;
@@ -28,6 +30,12 @@ export function AnalysisDialog({
   missingSkills,
   suggestions,
 }: AnalysisDialogProps) {
+  const progressColor =
+    matchScore >= 80
+      ? "bg-green-500"
+      : matchScore >= 60
+        ? "bg-yellow-500"
+        : "bg-red-500";
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -47,38 +55,49 @@ export function AnalysisDialog({
         </DialogHeader>
 
         <div className="space-y-6">
-          <div>
-            <h3 className="font-semibold mb-2">Match Score</h3>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold">Match Score</h3>
+              <span
+                className={`text-2xl font-bold ${progressColor.replace("bg-", "text-")}`}
+              >
+                {matchScore}%
+              </span>
+            </div>
 
-            <p className="text-3xl font-bold text-green-600">{matchScore}%</p>
+            <Progress value={matchScore} indicatorClassName={progressColor} />
           </div>
 
           <div>
             <h3 className="font-semibold mb-2">Strengths</h3>
 
-            <ul className="list-disc pl-5">
+            <div className="flex flex-wrap gap-2">
               {strengths.map((item) => (
-                <li key={item}>{item}</li>
+                <Badge key={item} variant="secondary">
+                  {item}
+                </Badge>
               ))}
-            </ul>
+            </div>
           </div>
 
           <div>
             <h3 className="font-semibold mb-2">Missing Skills</h3>
 
-            <ul className="list-disc pl-5">
+            <div className="flex flex-wrap gap-2">
               {missingSkills.map((item) => (
-                <li key={item}>{item}</li>
+                <Badge key={item} variant="destructive">
+                  {item}
+                </Badge>
               ))}
-            </ul>
+            </div>
           </div>
 
           <div>
             <h3 className="font-semibold mb-2">Suggestions</h3>
 
-            <ul className="list-disc pl-5">
+            <ul className="space-y-2">
               {suggestions.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>✓ {item}</li>
               ))}
             </ul>
           </div>

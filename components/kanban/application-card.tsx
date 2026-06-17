@@ -38,6 +38,15 @@ function formatStatus(status: ApplicationStatus) {
 }
 
 export function ApplicationCard({ application, index }: ApplicationCardProps) {
+  let progressColor: string = "text-gray-500";
+  if (application.matchScore !== null) {
+    progressColor =
+      application.matchScore >= 80
+        ? "text-green-500"
+        : application.matchScore >= 60
+          ? "text-yellow-500"
+          : "text-red-500";
+  }
   return (
     <Draggable draggableId={application.id} index={index}>
       {(provided) => (
@@ -56,7 +65,7 @@ export function ApplicationCard({ application, index }: ApplicationCardProps) {
               </p>
 
               {application.matchScore !== null && (
-                <p className="text-sm font-medium text-green-600 mt-2">
+                <p className={`text-sm font-medium ${progressColor} mt-2`}>
                   Match Score: {application.matchScore}%
                 </p>
               )}
