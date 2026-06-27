@@ -4,11 +4,12 @@ import { useState } from "react";
 
 export function SignupForm() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     setLoading(true);
+    setError("");
 
     const formData = new FormData(e.currentTarget);
 
@@ -25,33 +26,58 @@ export function SignupForm() {
 
     if (response.ok) {
       window.location.href = "/login";
+    } else {
+      const data = await response.json();
+      setError(data.message || "Something went wrong. Please try again.");
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
-      <input name="name" placeholder="Name" className="border p-2 w-full" />
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-1">
+        <label className="text-sm font-medium text-gray-700">Name</label>
+        <input
+          name="name"
+          placeholder="Your name"
+          required
+          className="border border-gray-300 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        />
+      </div>
 
-      <input
-        name="email"
-        type="email"
-        placeholder="Email"
-        className="border p-2 w-full"
-      />
+      <div className="space-y-1">
+        <label className="text-sm font-medium text-gray-700">Email</label>
+        <input
+          name="email"
+          type="email"
+          placeholder="you@example.com"
+          required
+          className="border border-gray-300 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        />
+      </div>
 
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        className="border p-2 w-full"
-      />
+      <div className="space-y-1">
+        <label className="text-sm font-medium text-gray-700">Password</label>
+        <input
+          name="password"
+          type="password"
+          placeholder="••••••••"
+          required
+          className="border border-gray-300 rounded-lg p-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+        />
+      </div>
+
+      {error && (
+        <p className="text-red-500 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"
         disabled={loading}
-        className="bg-black text-white px-4 py-2 w-full"
+        className="bg-black text-white rounded-lg px-4 py-2.5 w-full text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? "Creating..." : "Create Account"}
+        {loading ? "Creating account..." : "Create Account"}
       </button>
     </form>
   );
