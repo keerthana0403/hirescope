@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { ApplicationStatus } from "@prisma/client";
 import { analyzeResumeMatch } from "@/lib/ai/analyze-application";
+import { generateFollowUpEmail } from "@/lib/ai/generate-email";
 
 export async function createApplication(
   _prevState: unknown,
@@ -128,4 +129,36 @@ export async function analyzeApplication(applicationId: string) {
   });
 
   revalidatePath("/dashboard");
+}
+
+export async function generateEmail(applicationId: string): Promise<string> {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+
+  const application = await prisma.application.findFirst({
+    where: {
+      id: applicationId,
+      userId: session.user.id,
+    },
+  });
+
+  if (!application) throw new Error("Application not found");
+
+  const latestResume = await prisma.resume.findFirst({
+    where: { userId: session.user.id },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (!latestResume) throw new Error("Please upload a resume first");
+
+  const email = await generateFollowUpEmail(
+    application.company,
+    application.role,
+    latestResume.parsedText,
+  );
+
+  return email;
 }

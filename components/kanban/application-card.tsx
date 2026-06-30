@@ -5,6 +5,7 @@ import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { AnalyzeButton } from "../applications/analyze-button";
 import { AnalysisDialog } from "../applications/analysis-dialog";
+import { EmailButton } from "../applications/email-button";
 
 type ApplicationStatus = "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
 
@@ -70,7 +71,6 @@ export function ApplicationCard({ application, index }: ApplicationCardProps) {
                 </p>
               )}
             </div>
-
             <div className="flex items-center justify-between text-sm">
               <Badge className={statusStyles[application.status]}>
                 {formatStatus(application.status)}
@@ -85,14 +85,21 @@ export function ApplicationCard({ application, index }: ApplicationCardProps) {
             {application.matchScore === null ? (
               <AnalyzeButton applicationId={application.id} />
             ) : (
-              <AnalysisDialog
-                company={application.company}
-                role={application.role}
-                matchScore={application.matchScore}
-                strengths={(application.strengths as string[]) ?? []}
-                missingSkills={(application.missingSkills as string[]) ?? []}
-                suggestions={(application.suggestions as string[]) ?? []}
-              />
+              <div className="space-y-2">
+                <AnalysisDialog
+                  company={application.company}
+                  role={application.role}
+                  matchScore={application.matchScore}
+                  strengths={(application.strengths as string[]) ?? []}
+                  missingSkills={(application.missingSkills as string[]) ?? []}
+                  suggestions={(application.suggestions as string[]) ?? []}
+                />
+                <EmailButton
+                  applicationId={application.id}
+                  company={application.company}
+                  role={application.role}
+                />
+              </div>
             )}
           </div>
         </Card>
