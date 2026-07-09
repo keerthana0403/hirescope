@@ -2,21 +2,7 @@ import { ApplicationCard } from "./application-card";
 
 import { Droppable } from "@hello-pangea/dnd";
 import { Badge } from "../ui/badge";
-
-type ApplicationStatus = "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
-
-type Application = {
-  id: string;
-  company: string;
-  role: string;
-  status: ApplicationStatus;
-  createdAt: Date;
-
-  matchScore: number | null;
-  missingSkills: string[] | null;
-  strengths: string[] | null;
-  suggestions: string[] | null;
-};
+import { Application } from "@/types/application";
 
 type KanbanColumnProps = {
   title: string;

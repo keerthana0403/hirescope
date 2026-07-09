@@ -6,21 +6,7 @@ import { Badge } from "../ui/badge";
 import { AnalyzeButton } from "../applications/analyze-button";
 import { AnalysisDialog } from "../applications/analysis-dialog";
 import { EmailButton } from "../applications/email-button";
-
-type ApplicationStatus = "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
-
-type Application = {
-  id: string;
-  company: string;
-  role: string;
-  status: ApplicationStatus;
-  createdAt: Date;
-
-  matchScore: number | null;
-  missingSkills: string[] | null;
-  strengths: string[] | null;
-  suggestions: string[] | null;
-};
+import { Application, ApplicationStatus } from "@/types/application";
 
 type ApplicationCardProps = {
   application: Application;
