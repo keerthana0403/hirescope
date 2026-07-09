@@ -36,9 +36,9 @@ model Application {
   jobDesc String? @db.Text
 
   matchScore    Int?
-  missingSkills Json?
-  strengths     Json?
-  suggestions   Json?
+  missingSkills String[] @default([])
+  strengths     String[] @default([])
+  suggestions   String[] @default([])
 
   lastAnalyzedAt DateTime?
 

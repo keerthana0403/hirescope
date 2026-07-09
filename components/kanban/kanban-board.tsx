@@ -7,14 +7,7 @@ import { useRouter } from "next/navigation";
 import { KanbanColumn } from "./kanban-column";
 import { updateStatus } from "@/actions/application";
 import { ApplicationStatus } from "@prisma/client";
-
-type Application = {
-  id: string;
-  company: string;
-  role: string;
-  status: "APPLIED" | "INTERVIEW" | "OFFER" | "REJECTED";
-  createdAt: Date;
-};
+import { Application } from "@/types/application";
 
 type KanbanBoardProps = {
   applications: Application[];
