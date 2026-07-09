@@ -11,6 +11,11 @@ type Application = {
   role: string;
   status: ApplicationStatus;
   createdAt: Date;
+
+  matchScore: number | null;
+  missingSkills: string[] | null;
+  strengths: string[] | null;
+  suggestions: string[] | null;
 };
 
 type KanbanColumnProps = {
