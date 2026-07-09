@@ -1,10 +1,13 @@
 import { prisma } from "@/lib/db";
+import { auth } from "@/lib/auth";
+import { getDashboardAnalytics } from "@/lib/analytics";
+
 import { KanbanBoard } from "@/components/kanban/kanban-board";
 import AddApplicationDialog from "@/components/dashboard/add-application-dialog";
 import { StatsCard } from "@/components/dashboard/stats-card";
-import { Briefcase, Activity, Handshake, Trophy } from "lucide-react";
 
-import { auth } from "@/lib/auth";
+import { Briefcase, Activity, Handshake, Trophy } from "lucide-react";
+import AnalyticsCard from "@/components/dashboard/analytics-card";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -18,17 +21,7 @@ export default async function DashboardPage() {
     },
   });
 
-  const totalApplications = applications.length;
-
-  const activeApplications = applications.filter(
-    (app) => app.status === "APPLIED" || app.status === "INTERVIEW",
-  ).length;
-
-  const interviews = applications.filter(
-    (app) => app.status === "INTERVIEW",
-  ).length;
-
-  const offers = applications.filter((app) => app.status === "OFFER").length;
+  const analytics = getDashboardAnalytics(applications);
 
   return (
     <>
@@ -37,23 +30,33 @@ export default async function DashboardPage() {
       </div>
 
       {applications.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatsCard
-            title="Total Applications"
-            value={totalApplications}
-            icon={Briefcase}
-          />
+        <>
+          {/* Current Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <StatsCard
+              title="Total Applications"
+              value={analytics.totalApplications}
+              icon={Briefcase}
+            />
 
-          <StatsCard
-            title="Active Applications"
-            value={activeApplications}
-            icon={Activity}
-          />
+            <StatsCard
+              title="Active Applications"
+              value={analytics.activeApplications}
+              icon={Activity}
+            />
 
-          <StatsCard title="Interviews" value={interviews} icon={Handshake} />
+            <StatsCard
+              title="Interviews"
+              value={analytics.interviews}
+              icon={Handshake}
+            />
 
-          <StatsCard title="Offers" value={offers} icon={Trophy} />
-        </div>
+            <StatsCard title="Offers" value={analytics.offers} icon={Trophy} />
+          </div>
+
+          {/* Analytics Section */}
+          <AnalyticsCard analytics={analytics} />
+        </>
       )}
 
       <KanbanBoard applications={applications} />
