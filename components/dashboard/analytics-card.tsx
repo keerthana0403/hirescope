@@ -1,6 +1,6 @@
-import React from "react";
+import { DashboardAnalytics } from "@/types/analytics";
 
-const AnalyticsCard = ({ analytics }: { analytics: any }) => {
+const AnalyticsCard = ({ analytics }: { analytics: DashboardAnalytics }) => {
   return (
     <div className="rounded-lg border p-6 mb-8">
       <h2 className="text-xl font-semibold mb-4">Weekly Analytics</h2>

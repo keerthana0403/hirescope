@@ -7,12 +7,6 @@ export function getDashboardAnalytics(applications: Application[]) {
     (app) => app.status === "APPLIED" || app.status === "INTERVIEW",
   ).length;
 
-  const interviews = applications.filter(
-    (app) => app.status === "INTERVIEW",
-  ).length;
-
-  const offers = applications.filter((app) => app.status === "OFFER").length;
-
   const lastWeek = new Date();
   lastWeek.setDate(lastWeek.getDate() - 7);
 
