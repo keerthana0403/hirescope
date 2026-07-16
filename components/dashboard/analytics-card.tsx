@@ -1,30 +1,31 @@
 import { DashboardAnalytics } from "@/types/analytics";
 
+const METRICS = (analytics: DashboardAnalytics) => [
+  { label: "Weekly Applications", value: analytics.weeklyApplications },
+  { label: "Response Rate", value: `${analytics.responseRate}%` },
+  { label: "Average Match Score", value: `${analytics.averageMatchScore}%` },
+  { label: "Most Missing Skill", value: analytics.mostMissingSkill },
+];
+
 const AnalyticsCard = ({ analytics }: { analytics: DashboardAnalytics }) => {
   return (
-    <div className="rounded-lg border p-6 mb-8">
-      <h2 className="text-xl font-semibold mb-4">Weekly Analytics</h2>
+    <div className="rounded-2xl border border-border bg-card p-6 mb-8">
+      <p className="font-mono text-xs uppercase tracking-widest text-primary mb-1">
+        This week
+      </p>
+      <h2 className="text-xl font-semibold mb-4 text-foreground">
+        Weekly Analytics
+      </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div>
-          <p className="text-sm text-muted-foreground">Weekly Applications</p>
-          <p className="text-2xl font-bold">{analytics.weeklyApplications}</p>
-        </div>
-
-        <div>
-          <p className="text-sm text-muted-foreground">Response Rate</p>
-          <p className="text-2xl font-bold">{analytics.responseRate}%</p>
-        </div>
-
-        <div>
-          <p className="text-sm text-muted-foreground">Average Match Score</p>
-          <p className="text-2xl font-bold">{analytics.averageMatchScore}%</p>
-        </div>
-
-        <div>
-          <p className="text-sm text-muted-foreground">Most Missing Skill</p>
-          <p className="text-2xl font-bold">{analytics.mostMissingSkill}</p>
-        </div>
+        {METRICS(analytics).map((metric) => (
+          <div key={metric.label}>
+            <p className="text-sm text-muted-foreground">{metric.label}</p>
+            <p className="text-2xl font-mono font-semibold tabular-nums text-foreground">
+              {metric.value}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );

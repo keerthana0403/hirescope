@@ -1,7 +1,7 @@
 import { LoginForm } from "@/components/auth/login-form";
+import { AuthLayout } from "@/components/auth/auth-layout";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Briefcase } from "lucide-react";
 import Link from "next/link";
 
 export default async function LoginPage() {
@@ -12,38 +12,19 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-sm">
-        {/* Logo + Title */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-black rounded-xl p-3 mb-4">
-            <Briefcase className="text-white w-6 h-6" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900">HireScope</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Track your applications intelligently
-          </p>
-        </div>
+    <AuthLayout eyebrow="Welcome back" heading="Sign in to your pipeline">
+      <LoginForm />
 
-        {/* Card */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">
-            Sign in to your account
-          </h2>
-          <LoginForm />
-        </div>
-
-        {/* Sign up link */}
-        <p className="text-center text-sm text-gray-500 mt-4">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/signup"
-            className="text-black font-medium hover:underline"
-          >
-            Create one
-          </Link>
-        </p>
-      </div>
-    </div>
+      <p className="mt-6 text-center text-sm" style={{ color: "#8891B0" }}>
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/signup"
+          className="font-medium hover:underline"
+          style={{ color: "#6C8CFF" }}
+        >
+          Create one
+        </Link>
+      </p>
+    </AuthLayout>
   );
 }

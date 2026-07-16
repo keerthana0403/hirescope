@@ -1,3 +1,5 @@
+import { LogOut } from "lucide-react";
+
 export function LogoutForm() {
   return (
     <form
@@ -11,7 +13,13 @@ export function LogoutForm() {
         });
       }}
     >
-      <button>Logout</button>
+      <button
+        type="submit"
+        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <LogOut className="w-4 h-4" />
+        Logout
+      </button>
     </form>
   );
 }

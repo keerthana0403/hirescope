@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Plus } from "lucide-react";
 
 import {
   Dialog,
@@ -19,20 +20,21 @@ export default function AddApplicationDialog() {
   return (
     <div className="mb-8">
       <Dialog open={open} onOpenChange={setOpen}>
-        {/* Trigger */}
         <DialogTrigger asChild>
-          <Button size="lg">+ Add Application</Button>
+          <Button size="lg" className="gap-2">
+            <Plus className="h-4 w-4" />
+            Add Application
+          </Button>
         </DialogTrigger>
 
-        {/* Modal */}
-        <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-2xl max-h-[85vh] overflow-y-auto border-border bg-card">
           <DialogHeader>
             <DialogTitle>Add New Application</DialogTitle>
             <DialogDescription>
               Fill in the details below to track a new job application.
             </DialogDescription>
           </DialogHeader>
-          <ApplicationForm onSuccess={() => setOpen(false)} />{" "}
+          <ApplicationForm onSuccess={() => setOpen(false)} />
         </DialogContent>
       </Dialog>
     </div>

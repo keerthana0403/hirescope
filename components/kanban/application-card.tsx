@@ -14,10 +14,10 @@ type ApplicationCardProps = {
 };
 
 const statusStyles: Record<ApplicationStatus, string> = {
-  APPLIED: "bg-blue-100 text-blue-700 border-blue-200",
-  INTERVIEW: "bg-yellow-100 text-yellow-700 border-yellow-200",
-  OFFER: "bg-green-100 text-green-700 border-green-200",
-  REJECTED: "bg-red-100 text-red-700 border-red-200",
+  APPLIED: "bg-primary/15 text-primary border-primary/30",
+  INTERVIEW: "bg-chart-4/15 text-chart-4 border-chart-4/30",
+  OFFER: "bg-chart-3/15 text-chart-3 border-chart-3/30",
+  REJECTED: "bg-chart-5/15 text-chart-5 border-chart-5/30",
 };
 
 function formatStatus(status: ApplicationStatus) {
@@ -25,14 +25,14 @@ function formatStatus(status: ApplicationStatus) {
 }
 
 export function ApplicationCard({ application, index }: ApplicationCardProps) {
-  let progressColor: string = "text-gray-500";
+  let progressColor: string = "text-muted-foreground";
   if (application.matchScore !== null) {
     progressColor =
       application.matchScore >= 80
-        ? "text-green-500"
+        ? "text-chart-3"
         : application.matchScore >= 60
-          ? "text-yellow-500"
-          : "text-red-500";
+          ? "text-chart-4"
+          : "text-chart-5";
   }
   return (
     <Draggable draggableId={application.id} index={index}>
@@ -41,24 +41,31 @@ export function ApplicationCard({ application, index }: ApplicationCardProps) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="p-4 hover:shadow-md transition-all cursor-grab"
+          className="p-4 border-border bg-card hover:border-primary/40 hover:shadow-[0_0_24px_-10px_var(--primary)] transition-all cursor-grab"
         >
           <div className="space-y-4">
             <div>
-              <h3 className="font-semibold">{application.company}</h3>
+              <h3 className="font-semibold text-foreground">
+                {application.company}
+              </h3>
 
               <p className="text-sm text-muted-foreground">
                 {application.role}
               </p>
 
               {application.matchScore !== null && (
-                <p className={`text-sm font-medium ${progressColor} mt-2`}>
+                <p
+                  className={`text-sm font-mono font-medium ${progressColor} mt-2`}
+                >
                   Match Score: {application.matchScore}%
                 </p>
               )}
             </div>
             <div className="flex items-center justify-between text-sm">
-              <Badge className={statusStyles[application.status]}>
+              <Badge
+                variant="outline"
+                className={statusStyles[application.status]}
+              >
                 {formatStatus(application.status)}
               </Badge>
 
