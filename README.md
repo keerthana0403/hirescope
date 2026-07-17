@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HireScope
 
-## Getting Started
+An AI-powered job application tracker that replaces the spreadsheet — a live Kanban pipeline, AI resume-to-JD match scoring, an analytics dashboard, and auto-generated follow-up emails, all in one place.
 
-First, run the development server:
+![HireScope dashboard](public/dashboard-screenshot.png)
+
+## Features
+
+- **Kanban pipeline** — drag applications through Applied → Interview → Offer → Rejected, with status changes persisted instantly.
+- **AI match scoring** — upload a resume and a job description; Gemini scores the fit, surfaces strengths and missing skills, and suggests improvements.
+- **Analytics dashboard** — weekly application volume, response rate, average match score, and your most commonly missing skill at a glance.
+- **AI follow-up emails** — generate a tailored follow-up email for any application in one click.
+- **Resume management** — upload and store multiple resumes, parsed and ready for matching against new job descriptions.
+- **Authentication** — email/password and Google sign-in via Auth.js.
+
+## Tech stack
+
+| Layer         | Choice                               |
+| ------------- | ------------------------------------ |
+| Framework     | Next.js 15 (App Router)              |
+| Language      | TypeScript                           |
+| Styling       | Tailwind CSS v4                      |
+| Database      | Neon (serverless PostgreSQL)         |
+| ORM           | Prisma                               |
+| Auth          | Auth.js (credentials + Google OAuth) |
+| AI            | Gemini API                           |
+| Drag and drop | @hello-pangea/dnd                    |
+| Deployment    | Vercel                               |
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 18+
+- A [Neon](https://neon.tech) PostgreSQL database (or any Postgres instance)
+- A [Google Gemini API key](https://ai.google.dev/)
+- Google OAuth credentials (if you want Google sign-in)
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/<your-username>/hirescope.git
+cd hirescope
+npm install
+```
+
+### 2. Configure environment variables
+
+Create a `.env.local` file in the project root:
+
+```bash
+# Database
+DATABASE_URL="your-neon-connection-string"
+
+# Auth.js
+AUTH_SECRET="generate-with-npx-auth-secret"
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+
+# AI
+GEMINI_API_KEY="your-gemini-api-key"
+```
+
+> Adjust variable names above to match whatever your `lib/auth.ts` and `lib/db.ts` actually expect — update this section once confirmed.
+
+### 3. Set up the database
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
+
+### 4. Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+  (auth)/
+    login/          Sign-in page
+    signup/         Sign-up page
+  dashboard/
+    page.tsx        Kanban board + stats + analytics
+    resume/         Resume upload and management
+  api/               Route handlers (signup, etc.)
+components/
+  auth/              Login/signup forms, auth layout, logout
+  dashboard/         Header, stats cards, analytics, add-application dialog
+  kanban/            Board, columns, application cards
+  resume/            Resume upload
+  ui/                Shared shadcn primitives
+lib/                 Auth config, Prisma client, analytics helpers
+actions/             Server actions (applications, resume, etc.)
+```
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
+- [ ] Email reminders for stale applications
+- [ ] Export pipeline to CSV
+- [ ] Multi-resume matching comparison
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+[Add your license here — MIT is a common default for portfolio projects]
 
-## Deploy on Vercel
+## Author
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by Keerthana. [Portfolio](#) · [LinkedIn](#) · [GitHub](#)
