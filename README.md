@@ -105,10 +105,15 @@ actions/             Server actions (applications, resume, etc.)
 - [ ] Export pipeline to CSV
 - [ ] Multi-resume matching comparison
 
-## License
+# 👨‍💻 Author
 
-[Add your license here — MIT is a common default for portfolio projects]
+**Keerthana E**
 
-## Author
+- GitHub: https://github.com/keerthana0403
+- LinkedIn: https://www.linkedin.com/in/keerthana-e-a3055a1b5/
 
-Built by Keerthana. [Portfolio](#) · [LinkedIn](#) · [GitHub](#)
+---
+
+## ⭐ Show your support
+
+If you found this project useful, please consider giving it a **⭐ Star** on GitHub.
