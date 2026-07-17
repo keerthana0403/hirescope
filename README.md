@@ -39,7 +39,7 @@ An AI-powered job application tracker that replaces the spreadsheet — a live K
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/<your-username>/hirescope.git
+git clone https://github.com/keerthana0403/hirescope.git
 cd hirescope
 npm install
 ```
