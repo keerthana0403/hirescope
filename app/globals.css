@@ -132,3 +132,13 @@
     @apply font-sans;
   }
 }
+
+/* Hide scrollbar while keeping the element scrollable */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
