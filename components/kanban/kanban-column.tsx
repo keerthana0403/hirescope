@@ -13,12 +13,9 @@ export function KanbanColumn({ title, applications }: KanbanColumnProps) {
   return (
     <Droppable droppableId={title.toUpperCase()}>
       {(provided) => (
-        <div
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-          className="bg-card/60 border border-border rounded-2xl p-4 min-h-[500px]"
-        >
-          <div className="mb-4 flex items-center justify-between">
+        <div className="bg-card/60 border border-border rounded-2xl p-4 h-[500px] flex flex-col">
+          {/* Column Header */}
+          <div className="mb-4 flex items-center justify-between shrink-0">
             <h2 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
               {title}
             </h2>
@@ -31,22 +28,29 @@ export function KanbanColumn({ title, applications }: KanbanColumnProps) {
             </Badge>
           </div>
 
-          <div className="space-y-3">
-            {applications.map((application, index) => (
-              <ApplicationCard
-                key={application.id}
-                application={application}
-                index={index}
-              />
-            ))}
+          {/* Scrollable Applications */}
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="min-h-0 flex-1 overflow-y-auto hide-scrollbar"
+          >
+            <div className="space-y-3">
+              {applications.map((application, index) => (
+                <ApplicationCard
+                  key={application.id}
+                  application={application}
+                  index={index}
+                />
+              ))}
 
-            {applications.length === 0 && (
-              <div className="border border-dashed border-border rounded-xl p-6 text-center text-sm text-muted-foreground">
-                No applications
-              </div>
-            )}
+              {applications.length === 0 && (
+                <div className="border border-dashed border-border rounded-xl p-6 text-center text-sm text-muted-foreground">
+                  No applications
+                </div>
+              )}
 
-            {provided.placeholder}
+              {provided.placeholder}
+            </div>
           </div>
         </div>
       )}
